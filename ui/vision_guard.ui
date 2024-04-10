@@ -1,132 +1,512 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>VisionGuard</class>
+ <widget class="QWidget" name="VisionGuard">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>824</height>
+    <width>1252</width>
+    <height>735</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>华文琥珀</family>
-    <pointsize>10</pointsize>
-    <weight>50</weight>
-    <italic>false</italic>
-    <bold>false</bold>
-   </font>
-  </property>
   <property name="windowTitle">
-   <string>智慧教室</string>
+   <string>作弊检测</string>
   </property>
-  <property name="windowIcon">
-   <iconset theme="window_icon">
-    <normaloff>C:/Users/12071/.designer/backup</normaloff>C:/Users/12071/.designer/backup</iconset>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">font: 10pt &quot;华文琥珀&quot;;
-QPushButton
-                     {text-align : center;
-                     background-color : white;
-                     font: bold;
-                     border-color: ;
-	color: rgb(255, 255, 255);
-                     border-width: 5px;
-                     border-radius: 10px;
-                     padding: 6px;
-                     height : 14px;
-                     border-style: outset;
-                     font : 14px;}
-                     QPushButton:pressed
-                     {text-align : center;
-                     background-color : light gray;
-                     font: bold;
-                     border-color: gray;
-                     border-width: 2px;
-                     border-radius: 10px;
-                     padding: 6px;
-                     height : 14px;
-                     border-style: outset;
-                     font : 14px;}
-</string>
-  </property>
-  <widget class="QWidget" name="centralwidget">
-   <property name="styleSheet">
-    <string notr="true"/>
+  <layout class="QVBoxLayout" name="verticalLayout_13">
+   <property name="leftMargin">
+    <number>0</number>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_7">
-    <property name="leftMargin">
-     <number>5</number>
-    </property>
-    <property name="topMargin">
-     <number>5</number>
-    </property>
-    <property name="rightMargin">
-     <number>5</number>
-    </property>
-    <property name="bottomMargin">
-     <number>5</number>
-    </property>
-    <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>-1</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1280</width>
-     <height>24</height>
-    </rect>
+   <property name="topMargin">
+    <number>0</number>
    </property>
-   <widget class="QMenu" name="menu">
-    <property name="title">
-     <string>主要功能</string>
-    </property>
-    <addaction name="action_cheating_detection"/>
-    <addaction name="separator"/>
-    <addaction name="action_class_focus"/>
-   </widget>
-   <widget class="QMenu" name="menu_2">
-    <property name="title">
-     <string>设置</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menu_3">
-    <property name="title">
-     <string>帮助</string>
-    </property>
-    <addaction name="about_us"/>
-   </widget>
-   <addaction name="menu"/>
-   <addaction name="menu_2"/>
-   <addaction name="menu_3"/>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="action_cheating_detection">
-   <property name="text">
-    <string>作弊检测</string>
+   <property name="rightMargin">
+    <number>0</number>
    </property>
-  </action>
-  <action name="action_class_focus">
-   <property name="text">
-    <string>课堂专注度分析</string>
+   <property name="bottomMargin">
+    <number>0</number>
    </property>
-  </action>
-  <action name="about_us">
-   <property name="text">
-    <string>关于我们</string>
-   </property>
-  </action>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,5,2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="Line" name="line_7">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>视频通道</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="video_resource_list"/>
+       </item>
+       <item>
+        <widget class="Line" name="line_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>本地视频</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="video_source_txt">
+         <property name="text">
+          <string>视频路径</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="video_resource_file_list"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8" stretch="0,0">
+         <item>
+          <widget class="QPushButton" name="upload_video_btn">
+           <property name="text">
+            <string>上传视频</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="delete_video_btn">
+           <property name="text">
+            <string>删除视频</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="Line" name="line_9">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,8,0,1">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QLabel" name="function_list">
+             <property name="font">
+              <font>
+               <family>华文琥珀</family>
+               <pointsize>12</pointsize>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
+             </property>
+             <property name="text">
+              <string>功能列表</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="security_alarm">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>安全警报</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="object_recognition">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>物体识别</string>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="behavior_detection">
+             <property name="text">
+              <string>行为检测</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="video_screen">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(0, 0, 0);</string>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSlider" name="video_process_bar">
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"> QSlider {
+	background-color: rgba(22, 22, 22, 0.7);
+	border-radius: 5px;
+}
+ 
+QSlider::sub-page:horizontal {
+	background-color: #FF7826;
+	height:4px;
+	border-radius: 2px;
+}
+ 
+QSlider::add-page:horizontal {
+	background-color: #7A7B79;
+	height:4px;
+	border-radius: 2px;
+}
+ 
+QSlider::groove:horizontal {
+	background:transparent;
+	height:10px;
+}
+ 
+QSlider::handle:horizontal {
+	height: 10px;
+	width: 10px;
+	margin: 0px -2px 0px -2px;
+	border-radius: 5px;
+	background: white;
+}</string>
+           </property>
+           <property name="minimum">
+            <number>-1</number>
+           </property>
+           <property name="maximum">
+            <number>-1</number>
+           </property>
+           <property name="value">
+            <number>-1</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="tickPosition">
+            <enum>QSlider::NoTicks</enum>
+           </property>
+           <property name="tickInterval">
+            <number>0</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="1,3,1,1">
+           <item>
+            <widget class="QLabel" name="time_process_label">
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="text">
+              <string>00:00:00/00:00:00</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="play_video_btn">
+             <property name="text">
+              <string>播放</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="stop_playing_btn">
+             <property name="text">
+              <string>暂停</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_10">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_10">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <item>
+            <widget class="QLabel" name="real_time_catch_ico">
+             <property name="maximumSize">
+              <size>
+               <width>25</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="scaledContents">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="alarm_detailed_information">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>410</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>华文琥珀</family>
+               <pointsize>12</pointsize>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
+             </property>
+             <property name="text">
+              <string>警报详细信息</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <item>
+              <widget class="QDateEdit" name="dateEdit">
+               <property name="dateTime">
+                <datetime>
+                 <hour>0</hour>
+                 <minute>0</minute>
+                 <second>0</second>
+                 <year>2024</year>
+                 <month>4</month>
+                 <day>10</day>
+                </datetime>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="real_time_catch_list">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>220</height>
+            </size>
+           </property>
+           <property name="sizeIncrement">
+            <size>
+             <width>0</width>
+             <height>250</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>250</height>
+            </size>
+           </property>
+           <property name="flow">
+            <enum>QListView::LeftToRight</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_11" stretch="7,0,5">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="7,0">
+           <item>
+            <widget class="QLabel" name="Alarm_occurrence_time">
+             <property name="font">
+              <font>
+               <family>华文琥珀</family>
+               <pointsize>12</pointsize>
+               <italic>false</italic>
+               <bold>false</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
+             </property>
+             <property name="text">
+              <string>警报发生时间</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QDateEdit" name="dateEdit_2">
+             <property name="dateTime">
+              <datetime>
+               <hour>0</hour>
+               <minute>0</minute>
+               <second>0</second>
+               <year>2024</year>
+               <month>4</month>
+               <day>10</day>
+              </datetime>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListWidget" name="alarm_list">
+           <property name="minimumSize">
+            <size>
+             <width>415</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectItems</enum>
+           </property>
+           <property name="selectionRectVisible">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_11">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="alarm_list_img">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>200</height>
+          </size>
+         </property>
+         <property name="sizeIncrement">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

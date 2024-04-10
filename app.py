@@ -1,9 +1,8 @@
 import sys
+
 import qdarkstyle
-
 from PySide6 import QtGui
-from PySide6.QtWidgets import QMainWindow, QApplication
-
+from PySide6.QtWidgets import QApplication, QMainWindow
 from ui.vision_guard import Ui_MainWindow as VisionGuardMainWindow
 
 

@@ -5,15 +5,16 @@
 #
 # 接口文档（必看）：https://www.xfyun.cn/doc/face/xf-silent-in-vivo-detection/API.html
 
-from datetime import datetime
-from wsgiref.handlers import format_date_time
-from time import mktime
-import hashlib
 import base64
+import hashlib
 import hmac
-from urllib.parse import urlencode
 import json
 import os
+from datetime import datetime
+from time import mktime
+from urllib.parse import urlencode
+from wsgiref.handlers import format_date_time
+
 import requests
 from dotenv import dotenv_values
 
@@ -112,9 +113,9 @@ def run(img_path, server_id="s67c9c78c") -> bool:
     )
     cfg = dotenv_values(env_path)
     appid, api_secret, api_key = (
-        cfg["LIVENESS_DETECTION_APPID"],
-        cfg["LIVENESS_DETECTION_APISECRET"],
-        cfg["LIVENESS_DETECTION_APIKEY"],
+        cfg["APPID"],
+        cfg["APISECRET"],
+        cfg["APIKEY"],
     )
 
     url = "http://api.xf-yun.com/v1/private/{}".format(server_id)

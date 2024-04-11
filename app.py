@@ -2,23 +2,37 @@ import sys
 
 import qdarkstyle
 from PySide6 import QtGui
-from PySide6.QtWidgets import QApplication, QMainWindow
-from ui.vision_guard import Ui_MainWindow as VisionGuardMainWindow
+from PySide6.QtWidgets import *
+from ui.vision_guard import Ui_VisionGuard as VisionGuardMainWindow
+from ui.login_account import Ui_LoginAccount
+from ui.login_face import Ui_LoginFace
 
 
-class VisionGuardApp(QMainWindow, VisionGuardMainWindow):
-
+class VisionGuardApp(QWidget):
     def __init__(self, parent=None):
-        super(VisionGuardApp, self).__init__(parent)
-        self.setupUi(self)
+        super().__init__(parent)
+        self.ui = VisionGuardMainWindow()
+        self.ui.setupUi(self)
+        self.show()
 
-    def closeEvent(self, a0: QtGui.QCloseEvent) -> None:
-        super(VisionGuardApp, self).closeEvent(a0)
+class LoginAcount(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = Ui_LoginAccount()
+        self.ui.setupUi(self)
+        self.show()
+
+class LoginFace(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.ui = Ui_LoginFace()
+        self.ui.setupUi(self)
+        self.show()
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = VisionGuardApp()
-    app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
-    window.show()
     sys.exit(app.exec())
+#
+

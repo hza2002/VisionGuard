@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>登录界面</string>
+   <string>人脸登录界面</string>
   </property>
   <widget class="QPushButton" name="face_verification_button">
    <property name="geometry">

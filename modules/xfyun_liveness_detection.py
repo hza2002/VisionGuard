@@ -16,7 +16,8 @@ from urllib.parse import urlencode
 from wsgiref.handlers import format_date_time
 
 import requests
-from dotenv import dotenv_values
+
+from utils.config import Config
 
 
 class AssembleHeaderException(Exception):
@@ -108,14 +109,11 @@ def gen_body(appid, img_path, server_id):
 
 
 def run(img_path, server_id="s67c9c78c") -> bool:
-    env_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "../resource/.env"
-    )
-    cfg = dotenv_values(env_path)
-    appid, api_secret, api_key = (
-        cfg["APPID"],
-        cfg["APISECRET"],
-        cfg["APIKEY"],
+    config = Config()
+    appid, api_key, api_secret = (
+        config.cfg["xfyun"]["appid"],
+        config.cfg["xfyun"]["api_key"],
+        config.cfg["xfyun"]["api_secret"],
     )
 
     url = "http://api.xf-yun.com/v1/private/{}".format(server_id)

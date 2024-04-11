@@ -1,0 +1,13 @@
+{
+    "xfyun": {
+        "appid": "b6673a3a",
+        "api_key": "f65a0459f9e14b1faa052952376a3f5d",
+        "api_secret": "YzZhZDE3ZDI3Mjc4ZDI2NzJjMWMxZDU5"
+    },
+    "email": {
+        "to_email": "hza2002@foxmail.com",
+        "from_email": "hza2002@foxmail.com",
+        "password": "rlqtluwejjuddfeh",
+        "smtp_name":"smtp.qq.com: 587"
+    }
+}

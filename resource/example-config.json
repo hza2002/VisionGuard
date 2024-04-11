@@ -1,0 +1,13 @@
+{
+    "xfyun": {
+        "appid": "",
+        "api_key": "",
+        "api_secret": ""
+    },
+    "email": {
+        "to_email": "",
+        "from_email": "",
+        "password": "",
+        "smtp_name": ""
+    }
+}

@@ -108,14 +108,9 @@
             <widget class="QLabel" name="function_list">
              <property name="font">
               <font>
-               <family>华文琥珀</family>
                <pointsize>12</pointsize>
-               <italic>false</italic>
-               <bold>false</bold>
+               <bold>true</bold>
               </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
              </property>
              <property name="text">
               <string>功能列表</string>
@@ -300,63 +295,49 @@ QSlider::handle:horizontal {
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
-            <widget class="QLabel" name="real_time_catch_ico">
-             <property name="maximumSize">
-              <size>
-               <width>25</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="scaledContents">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="alarm_detailed_information">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
+            <widget class="QLabel" name="label">
              <property name="minimumSize">
               <size>
-               <width>410</width>
+               <width>0</width>
                <height>0</height>
               </size>
              </property>
              <property name="font">
               <font>
-               <family>华文琥珀</family>
                <pointsize>12</pointsize>
-               <italic>false</italic>
-               <bold>false</bold>
+               <bold>true</bold>
               </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
              </property>
              <property name="text">
               <string>警报详细信息</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_13">
              <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QDateEdit" name="dateEdit">
                <property name="dateTime">
                 <datetime>
-                 <hour>0</hour>
+                 <hour>16</hour>
                  <minute>0</minute>
                  <second>0</second>
                  <year>2024</year>
                  <month>4</month>
-                 <day>10</day>
+                 <day>9</day>
                 </datetime>
                </property>
               </widget>
@@ -366,7 +347,7 @@ QSlider::handle:horizontal {
           </layout>
          </item>
          <item>
-          <widget class="QListWidget" name="real_time_catch_list">
+          <widget class="QListWidget" name="alarm_detailed_information">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -405,38 +386,43 @@ QSlider::handle:horizontal {
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_12" stretch="0,0">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="7,0">
+          <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="0,0,0">
            <item>
-            <widget class="QLabel" name="Alarm_occurrence_time">
+            <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
-               <family>华文琥珀</family>
                <pointsize>12</pointsize>
-               <italic>false</italic>
-               <bold>false</bold>
+               <bold>true</bold>
               </font>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">font: 12pt &quot;华文琥珀&quot;;</string>
              </property>
              <property name="text">
               <string>警报发生时间</string>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
            <item>
             <widget class="QDateEdit" name="dateEdit_2">
              <property name="dateTime">
               <datetime>
-               <hour>0</hour>
+               <hour>16</hour>
                <minute>0</minute>
                <second>0</second>
                <year>2024</year>
                <month>4</month>
-               <day>10</day>
+               <day>9</day>
               </datetime>
              </property>
             </widget>

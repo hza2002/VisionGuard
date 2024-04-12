@@ -9,5 +9,10 @@
         "from_email": "",
         "password": "",
         "smtp_name": ""
+    },
+    "model": {
+        "predict": "yolov8n.pt",
+        "segment": "yolov8n-seg.pt",
+        "pose": "yolov8n-pose.pt"
     }
 }

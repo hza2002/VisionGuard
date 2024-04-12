@@ -1,14 +1,16 @@
+import os
 import sys
+
 import cv2
 import qdarkstyle
-import os
-from PySide6.QtGui import *
 from PySide6.QtCore import *
+from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from ui.vision_guard import Ui_VisionGuard as VisionGuardMainWindow
+
+from modules.login import Login
 from ui.login_account import Ui_LoginAccount as LoginWindow
 from ui.login_face import Ui_LoginFace as LoginFaceWindow
-from modules.login import Login
+from ui.vision_guard import Ui_VisionGuard as VisionGuardMainWindow
 
 
 class VisionGuardApp(QWidget):
@@ -46,13 +48,12 @@ class VisionGuardApp(QWidget):
         current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
         self.ui.time_process_label.setText(current_time)
 
-
     def closeEvent(self, event):
         self.camera.release()
         event.accept()
 
 
-class LoginAccount(QMainWindow):
+class LoginAccount(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = LoginWindow()
@@ -62,12 +63,10 @@ class LoginAccount(QMainWindow):
         self.ui.face_login_button.clicked.connect(self.face_login)
         self.ui.account_login_button.clicked.connect(self.account_login)
 
-
     def face_login(self):
         self.hide()
         self.login_face_widget = LoginFace()
         self.login_face_widget.show()
-
 
     def account_login(self):
         username = self.ui.user_name.text()
@@ -78,10 +77,13 @@ class LoginAccount(QMainWindow):
             self.hide()
             self.vision_guard_widget = VisionGuardApp()
             self.vision_guard_widget.show()
-            QMessageBox.information(self, "Login Success", "Welcome to the vision guard")
+            QMessageBox.information(
+                self, "Login Success", "Welcome to the vision guard"
+            )
         else:
             # Display an error message or handle unsuccessful login
             QMessageBox.warning(self, "Login Failed", "Invalid username or password")
+
 
 class LoginFace(QWidget):
     # face = Signal(str)
@@ -90,16 +92,15 @@ class LoginFace(QWidget):
         self.ui = LoginFaceWindow()
         self.ui.setupUi(self)
 
-
         self.camera = cv2.VideoCapture(0)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000 / 30)
 
-        #人脸验证按钮
+        # 人脸验证按钮
         self.ui.face_verification_button.clicked.connect(self.face_verification)
-        #返回按钮
+        # 返回按钮
         self.ui.return_button.clicked.connect(self.returnlogin)
 
         self.show()
@@ -113,7 +114,6 @@ class LoginFace(QWidget):
             q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
             self.ui.face_img.setPixmap(QPixmap.fromImage(q_img))
 
-
     def face_verification(self):
         filename = "current_frame.png"
         filepath = os.path.join(os.path.dirname(__file__), "resource", filename)
@@ -123,15 +123,17 @@ class LoginFace(QWidget):
         if ret:
             cv2.imwrite(filepath, frame)
 
-            #调用人脸比对函数
-            result = Login.face_login(filepath)
+            # 调用人脸比对函数
+            result = Login().face_login(filepath)
             if result:
                 print("Face login successful!")
                 os.remove(filepath)
                 self.hide()
                 self.vision_guard_widget = VisionGuardApp()
                 self.vision_guard_widget.show()
-                QMessageBox.information(self, "Login Success", "Welcome to the vision guard")
+                QMessageBox.information(
+                    self, "Login Success", "Welcome to the vision guard"
+                )
             else:
                 print("Face login failed!")
                 os.remove(filepath)
@@ -143,7 +145,6 @@ class LoginFace(QWidget):
         self.login_account_widget = LoginAccount()
         self.login_account_widget.show()
 
-
     def closeEvent(self, event):
         self.camera.release()
         event.accept()
@@ -151,7 +152,6 @@ class LoginFace(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    app.setStyleSheet(qdarkstyle.load_stylesheet())
+    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
     window = LoginAccount()
     sys.exit(app.exec())
-

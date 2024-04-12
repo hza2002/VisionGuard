@@ -63,7 +63,6 @@ def assemble_ws_auth_url(requset_url, method="GET", api_key="", api_secret=""):
     signature_origin = "host: {}\ndate: {}\n{} {} HTTP/1.1".format(
         host, date, method, path
     )
-    # print(signature_origin)
     signature_sha = hmac.new(
         api_secret.encode("utf-8"),
         signature_origin.encode("utf-8"),

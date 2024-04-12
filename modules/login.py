@@ -1,7 +1,8 @@
 import os
 
 import face_recognition
-import xfyun_liveness_detection as liveness_detection
+
+import modules.xfyun_liveness_detection as liveness_detection
 
 
 class Login:
@@ -23,14 +24,20 @@ class Login:
             for file in files
             if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".jpeg")
         ]
-        verified_faces = []
-        for image in face_images:
-            verified_face = face_recognition.load_image_file(image)
-            verified_face_encoding = face_recognition.face_encodings(verified_face)[0]
-            verified_faces.append(verified_face_encoding)
+        try:
+            verified_faces = []
+            for image in face_images:
+                verified_face = face_recognition.load_image_file(image)
+                verified_face_encoding = face_recognition.face_encodings(verified_face)[
+                    0
+                ]
+                verified_faces.append(verified_face_encoding)
 
-        unknown_image = face_recognition.load_image_file(img_path)
-        unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+            unknown_image = face_recognition.load_image_file(img_path)
+            unknown_encoding = face_recognition.face_encodings(unknown_image)[0]
+        except IndexError:
+            print("Unable to locate any faces in at least one of the images!")
+            return False
 
         results = face_recognition.compare_faces(verified_faces, unknown_encoding, 0.6)
         if all(not item for item in results):  # 比对结果全为False

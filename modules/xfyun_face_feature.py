@@ -130,6 +130,7 @@ def run(img_path, server_id="s67c9c78c"):
     decode_json = json.loads(
         base64.b64decode(resp_data["payload"]["face_detect_result"]["text"]).decode()
     )
+    print(decode_json)
     return decode_json
 
 

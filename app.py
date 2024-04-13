@@ -8,6 +8,7 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
 from modules.login import Login
+from modules.object_track import ObjectTrack
 from ui.login_account import Ui_LoginAccount as LoginWindow
 from ui.login_face import Ui_LoginFace as LoginFaceWindow
 from ui.vision_guard import Ui_VisionGuard as VisionGuardMainWindow
@@ -18,7 +19,9 @@ class VisionGuardApp(QWidget):
         super().__init__(parent)
         self.ui = VisionGuardMainWindow()
         self.ui.setupUi(self)
-        self.camera = cv2.VideoCapture(0)
+        self.object_track = ObjectTrack(603, 360, enable_track=False, enable_heatmap=False)
+
+        self.camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
         # 设置摄像头捕获的帧大小
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 603)
@@ -32,6 +35,11 @@ class VisionGuardApp(QWidget):
         self.time_timer.timeout.connect(self.update_time)
         self.time_timer.start(1000)
 
+        #复选框按钮
+        self.ui.track_detection.stateChanged.connect(self.toggle_track)
+        self.ui.heatmap.stateChanged.connect(self.toggle_heatmap)
+
+
         self.show()
 
     def update_frame(self):
@@ -39,6 +47,7 @@ class VisionGuardApp(QWidget):
         if ret:
             frame = cv2.resize(frame, (603, 360))
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            frame = self.object_track(frame)
             h, w, ch = frame.shape
             bytes_per_line = ch * w
             q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
@@ -47,6 +56,18 @@ class VisionGuardApp(QWidget):
     def update_time(self):
         current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
         self.ui.time_process_label.setText(current_time)
+
+    def toggle_track(self, state):
+        if state == 2:
+            self.object_track.enable_track = True
+        else:
+            self.object_track.enable_track = False
+
+    def toggle_heatmap(self, state):
+        if state == 2:
+            self.object_track.enable_heatmap = True
+        else:
+            self.object_track.enable_heatmap = False
 
     def closeEvent(self, event):
         self.camera.release()
@@ -92,7 +113,7 @@ class LoginFace(QWidget):
         self.ui = LoginFaceWindow()
         self.ui.setupUi(self)
 
-        self.camera = cv2.VideoCapture(0)
+        self.camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
@@ -152,6 +173,6 @@ class LoginFace(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
+    app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
     window = LoginAccount()
     sys.exit(app.exec())

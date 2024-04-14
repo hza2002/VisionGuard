@@ -14,11 +14,13 @@ class ObjectTrack:
         self,
         width,
         height,
+        enable_detect=False,
         enable_track=False,
         enable_heatmap=False,
     ):
         self.width = width
         self.height = height
+        self.enable_detect = enable_detect
         self.enable_track = enable_track
         self.enable_heatmap = enable_heatmap
 
@@ -43,12 +45,11 @@ class ObjectTrack:
         return self.heatmap_obj.generate_heatmap(frame, results)
 
     def plot_track(self, frame, results):
-        if results[0].boxes.id is not None and results[0].masks is not None:
-            masks = results[0].masks.xy
+        if results[0].boxes.id is not None:
             boxes = results[0].boxes.xywh.cpu()
             track_ids = results[0].boxes.id.int().cpu().tolist()
 
-            for mask, box, track_id in zip(masks, boxes, track_ids):
+            for box, track_id in zip(boxes, track_ids):
                 x, y, _, _ = box
                 track = self.track_history[track_id]
                 track.append((float(x), float(y)))  # x, y center point
@@ -67,17 +68,20 @@ class ObjectTrack:
         return frame
 
     def run(self, frame):
-        results = self.model.track(frame, persist=True, classes=self.classes)
+        results = self.model.track(
+            frame, persist=True, classes=self.classes, verbose=False
+        )
         return results
 
     def __call__(self, frame):
         results = self.run(frame)
-        frame = results[0].plot()
+        if self.enable_detect:
+            frame = results[0].plot()
         if self.enable_track:
             frame = self.plot_track(frame, results)
         if self.enable_heatmap:
             frame = self.plot_heatmap(frame, results)
-        return frame
+        return frame, results
 
 
 if __name__ == "__main__":
@@ -85,12 +89,14 @@ if __name__ == "__main__":
     cap = cv2.VideoCapture(source)
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
-    object_track = ObjectTrack(w, h, enable_track=True, enable_heatmap=True)
+    object_track = ObjectTrack(
+        w, h, enable_detect=True, enable_track=True, enable_heatmap=True
+    )
     while cap.isOpened():
         success, frame = cap.read()
         if not success:
             break
-        frame = object_track(frame)
+        frame, _ = object_track(frame)
         cv2.imshow("Object Track", frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break

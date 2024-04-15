@@ -32,6 +32,92 @@ class Url:
         pass
 
 
+class FaceDesc:
+    def __init__(self, json):
+        self.property = json["face_1"]["property"]
+
+    def convert_beard(self):
+        beard = int(self.property["beard"])
+        if beard == 0:
+            result = "没有胡子"
+        elif beard == 1:
+            result = "有胡子"
+        else:
+            result = "错误"
+        self.property["beard"] = result
+
+    def convert_expression(self):
+        expression = int(self.property["expression"])
+        if expression == 0:
+            result = "惊讶"
+        elif expression == 1:
+            result = "害怕"
+        elif expression == 2:
+            result = "厌恶"
+        elif expression == 3:
+            result = "高兴"
+        elif expression == 4:
+            result = "悲伤"
+        elif expression == 5:
+            result = "生气"
+        elif expression == 6:
+            result = "正常"
+        else:
+            result = "错误"
+        self.property["expression"] = result
+
+    def convert_gender(self):
+        gender = int(self.property["gender"])
+        if gender == 0:
+            result = "男人"
+        elif gender == 1:
+            result = "女人"
+        else:
+            result = "错误"
+        self.property["gender"] = result
+
+    def convert_glass(self):
+        glass = int(self.property["glass"])
+        if glass == 0:
+            result = "不戴眼镜"
+        elif glass == 1:
+            result = "戴眼镜"
+        else:
+            result = "错误"
+        self.property["glass"] = result
+
+    def convert_hair(self):
+        hair = int(self.property["hair"])
+        if hair == 0:
+            result = "光头"
+        elif hair == 1:
+            result = "短发"
+        elif hair == 2:
+            result = "长发"
+        else:
+            result = "错误"
+        self.property["hair"] = result
+
+    def convert_mask(self):
+        mask = int(self.property["mask"])
+        if mask == 0:
+            result = "没戴口罩"
+        elif mask == 1:
+            result = "戴口罩"
+        else:
+            result = "错误"
+        self.property["mask"] = result
+
+    def __call__(self):
+        self.convert_beard()
+        self.convert_expression()
+        self.convert_gender()
+        self.convert_glass()
+        self.convert_hair()
+        self.convert_mask()
+        return self.property
+
+
 # 进行sha256加密和base64编码
 def sha256base64(data):
     sha256 = hashlib.sha256()
@@ -131,7 +217,9 @@ def run(img_path, server_id="s67c9c78c"):
         base64.b64decode(resp_data["payload"]["face_detect_result"]["text"]).decode()
     )
     print(decode_json)
-    return decode_json
+    face_desc = FaceDesc(decode_json)
+    translated_json = face_desc()
+    return translated_json
 
 
 if __name__ == "__main__":

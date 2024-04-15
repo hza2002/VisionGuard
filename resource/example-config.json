@@ -1,4 +1,8 @@
 {
+    "tencent": {
+        "secret_id": "",
+        "secret_key": ""
+    },
     "xfyun": {
         "appid": "",
         "api_key": "",

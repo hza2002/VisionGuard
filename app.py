@@ -1,25 +1,21 @@
-import datetime
+import json
 import os
 import sys
 
 import cv2
 import qdarkstyle
-import json
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 
-from modules.login import Login
-from modules.intruder_monitor import IntruderMonitor
-from modules.register import Register
 import modules.tencent_face_feature as face_feature
+from modules.intruder_monitor import IntruderMonitor
+from modules.login import Login
+from modules.register import Register
+from ui.face_register import Ui_FaceRegister as FaceRegisterWindow
 from ui.login_account import Ui_LoginAccount as LoginWindow
 from ui.login_face import Ui_LoginFace as LoginFaceWindow
 from ui.vision_guard import Ui_VisionGuard as VisionGuardMainWindow
-from ui.face_register import Ui_FaceRegister as FaceRegisterWindow
 from utils.alarm_email import Email
 
 
@@ -29,13 +25,16 @@ class VisionGuardApp(QWidget):
         self.ui = VisionGuardMainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("VisionGuard")
-        self.intruder_monitor = IntruderMonitor(670, 450, enable_detect=True, enable_track=False, enable_heatmap=False)
+        self.intruder_monitor = IntruderMonitor(
+            670, 450, enable_detect=True, enable_track=False, enable_heatmap=False
+        )
 
-        self.camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+        # self.camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+        self.camera = cv2.VideoCapture(0)
 
-        #初始化长度
-        self.number=0
-        self.email=0
+        # 初始化长度
+        self.number = 0
+        self.email = 0
 
         # 设置摄像头捕获的帧大小
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 670)
@@ -45,15 +44,14 @@ class VisionGuardApp(QWidget):
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000 / 30)
 
-
-        #复选框按钮
+        # 复选框按钮
         self.ui.track_detection.stateChanged.connect(self.toggle_track)
         self.ui.heatmap.stateChanged.connect(self.toggle_heatmap)
-        #listwidget按钮
+        # listwidget按钮
         self.ui.alarm_list.itemClicked.connect(self.on_item_clicked)
-        #人脸注册按钮
+        # 人脸注册按钮
         self.ui.settings.clicked.connect(self.face_register)
-        #下拉框
+        # 下拉框
         # self.ui.summary_type.currentIndexChanged.connect(self.handleComboBox)
         self.login_face_widget = FaceRegister()
 
@@ -63,27 +61,36 @@ class VisionGuardApp(QWidget):
         ret, frame = self.camera.read()
         if ret:
             frame = cv2.resize(frame, (670, 450))
+            frame, _, ids = self.intruder_monitor(frame)
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame, _ , ids= self.intruder_monitor(frame)
             h, w, ch = frame.shape
             bytes_per_line = ch * w
             q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
             self.ui.video_screen.setPixmap(QPixmap.fromImage(q_img))
 
-        if(self.number!=len(self.intruder_monitor.logger)):
+        if self.number != len(self.intruder_monitor.logger):
             for i in ids:
-                    verified = "Know" if self.intruder_monitor.logger[i]["verified"] else "Unknow"
-                    current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
-                    item = QListWidgetItem(" ".join([verified,"person",str(i),current_time]))
-                    self.ui.alarm_list.addItem(item)
-                    if (self.intruder_monitor.logger[i]["verified"] == False):
-                        item.setBackground(QColor("red"))
-                        if(self.ui.security_alarm.isChecked()):
-                            item_count = self.ui.alarm_list.count()
-                            id = int(self.ui.alarm_list.item(item_count - 1).text().split()[2])
-                            Email().send_email(content="Warning from VisionGuard "+current_time,
-                                             image=self.intruder_monitor.logger[id]["frame"])
-
+                verified = (
+                    "Know" if self.intruder_monitor.logger[i]["verified"] else "Unknow"
+                )
+                current_time = QDateTime.currentDateTime().toString(
+                    "yyyy-MM-dd hh:mm:ss"
+                )
+                item = QListWidgetItem(
+                    " ".join([verified, "person", str(i), current_time])
+                )
+                self.ui.alarm_list.addItem(item)
+                if self.intruder_monitor.logger[i]["verified"] == False:
+                    item.setBackground(QColor("red"))
+                    if self.ui.security_alarm.isChecked():
+                        item_count = self.ui.alarm_list.count()
+                        id = int(
+                            self.ui.alarm_list.item(item_count - 1).text().split()[2]
+                        )
+                        Email().send_email(
+                            content="Warning from VisionGuard " + current_time,
+                            image=self.intruder_monitor.logger[id]["frame"],
+                        )
 
         self.number = len(self.intruder_monitor.logger)
 
@@ -91,6 +98,7 @@ class VisionGuardApp(QWidget):
         id = int(item.text().split()[2])
 
         whole_img = cv2.resize(self.intruder_monitor.logger[id]["frame"], (299, 151))
+        # whole_img = cv2.cvtColor(whole_img, cv2.COLOR_BGR2RGB)
         h, w, ch = whole_img.shape
         bytes_per_line = ch * w
         q_img = QImage(whole_img, w, h, bytes_per_line, QImage.Format_BGR888)
@@ -98,14 +106,16 @@ class VisionGuardApp(QWidget):
         self.ui.whole_img.setPixmap(pixmap)
 
         x1, y1, x2, y2 = self.intruder_monitor.logger[id]["box"]
-        face_image = self.intruder_monitor.logger[id]["frame"][int(y1): int(y2), int(x1): int(x2)]
+        face_image = self.intruder_monitor.logger[id]["frame"][
+            int(y1) : int(y2), int(x1) : int(x2)
+        ]
         face_image = cv2.resize(face_image, (199, 151))
+        # face_image = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
         h, w, ch = face_image.shape
         bytes_per_line = ch * w
         q_img = QImage(face_image, w, h, bytes_per_line, QImage.Format_BGR888)
         pixmap = QPixmap.fromImage(q_img)
         self.ui.face_img.setPixmap(pixmap)
-
 
         filename = "face_feature.jpg"
         filepath = os.path.join(os.path.dirname(__file__), "resource", filename)
@@ -119,25 +129,34 @@ class VisionGuardApp(QWidget):
         except OSError as e:
             print(f"删除文件 {filepath} 时出错: {e}")
 
-        self.ui.gender.setText(str(result['Gender']))
-        self.ui.expression.setText(str(result['Smile']))
-        self.ui.clothes.setText(str(result['Glass']+'/'+result['Hat']+'/'+result['Mask']))
-        self.ui.appearance.setText(str(result['Beauty']))
-        self.ui.hair.setText(str(result['Hair Length']+'/'+result['Hair Bang']+'/'+result['Hair Color']))
-        self.ui.age.setText(str(result['Age']))
+        self.ui.gender.setText(str(result["Gender"]))
+        self.ui.expression.setText(str(result["Smile"]))
+        self.ui.clothes.setText(
+            str(result["Glass"] + "/" + result["Hat"] + "/" + result["Mask"])
+        )
+        self.ui.appearance.setText(str(result["Beauty"]))
+        self.ui.hair.setText(
+            str(
+                result["Hair Length"]
+                + "/"
+                + result["Hair Bang"]
+                + "/"
+                + result["Hair Color"]
+            )
+        )
+        self.ui.age.setText(str(result["Age"]))
 
     def toggle_track(self, state):
         if state == 2:
-            self.intruder_monitor.tracker.enable_track=True
+            self.intruder_monitor.tracker.enable_track = True
         else:
-            self.intruder_monitor.tracker.enable_track=False
+            self.intruder_monitor.tracker.enable_track = False
 
     def toggle_heatmap(self, state):
         if state == 2:
             self.intruder_monitor.tracker.enable_heatmap = True
         else:
             self.intruder_monitor.tracker.enable_heatmap = False
-
 
     def face_register(self):
 
@@ -150,7 +169,6 @@ class VisionGuardApp(QWidget):
     #     elif selected_option == "每分钟":
     #
     #     elif selected_option == "每天":
-
 
     def closeEvent(self, event):
         self.camera.release()
@@ -198,7 +216,7 @@ class LoginFace(QWidget):
         self.ui.setupUi(self)
         self.setWindowTitle("人脸登录")
 
-        self.camera = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+        self.camera = cv2.VideoCapture(0)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
@@ -246,7 +264,6 @@ class LoginFace(QWidget):
                 QMessageBox.warning(self, "Login Failed", "Face login failed!")
 
     def returnlogin(self):
-
         self.hide()
         self.login_account_widget = LoginAccount()
         self.login_account_widget.show()
@@ -254,7 +271,6 @@ class LoginFace(QWidget):
     def closeEvent(self, event):
         self.camera.release()
         event.accept()
-
 
 
 class FaceRegister(QWidget):
@@ -284,15 +300,15 @@ class FaceRegister(QWidget):
 
         # 人脸录入按钮
         self.ui.type_in.clicked.connect(self.type_in)
-        #人脸删除按钮
+        # 人脸删除按钮
         self.ui.face_delete.clicked.connect(self.delete_face)
-        #打开文件
+        # 打开文件
         self.ui.face_bank.itemDoubleClicked.connect(self.open_file)
-        #修改按钮
+        # 修改按钮
         self.ui.modify.clicked.connect(self.email_modify)
-        #返回按钮
+        # 返回按钮
         self.ui.return_button.clicked.connect(self.returnmainwindow)
-        #录入按钮
+        # 录入按钮
         self.ui.type_in.clicked.connect(self.face_in)
         self.click_count = 0
 
@@ -300,15 +316,15 @@ class FaceRegister(QWidget):
         self.folder_path = "resource/verified_face"
         self.load_face_bank()
 
-        #加载邮箱
-        file_path = 'resource/config.json'
+        # 加载邮箱
+        file_path = "resource/config.json"
         config = self.load_json(file_path)
-        email_config = config.get('email', {})
+        email_config = config.get("email", {})
         if email_config:
-            self.ui.to_email.setText(email_config.get('to_email'))
-            self.ui.from_email.setText(email_config.get('from_email'))
-            self.ui.email_password.setText(email_config.get('password'))
-            self.ui.smtp_name.setText(email_config.get('smtp_name'))
+            self.ui.to_email.setText(email_config.get("to_email"))
+            self.ui.from_email.setText(email_config.get("from_email"))
+            self.ui.email_password.setText(email_config.get("password"))
+            self.ui.smtp_name.setText(email_config.get("smtp_name"))
 
     def update_frame(self):
         ret, frame = self.camera.read()
@@ -343,7 +359,6 @@ class FaceRegister(QWidget):
     def returnmainwindow(self):
         self.close()
 
-
     def type_in(self):
         filename = "current_frame.png"
         filepath = os.path.join(os.path.dirname(__file__), "resource", filename)
@@ -352,22 +367,22 @@ class FaceRegister(QWidget):
         if ret:
             cv2.imwrite(filepath, frame)
 
-    def load_json(self,file_path):
-        with open(file_path, 'r') as file:
+    def load_json(self, file_path):
+        with open(file_path, "r") as file:
             config = json.load(file)
         return config
 
     def save_config(self, file_path, config):
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             json.dump(config, file, indent=4)
 
     def email_modify(self):
-        file_path = 'resource/config.json'
+        file_path = "resource/config.json"
         config = self.load_json(file_path)
-        config['email']['to_email'] = self.ui.to_email.text()
-        config['email']['from_email'] = self.ui.from_email.text()
-        config['email']['password'] = self.ui.email_password.text()
-        config['email']['smtp_name'] = self.ui.smtp_name.text()
+        config["email"]["to_email"] = self.ui.to_email.text()
+        config["email"]["from_email"] = self.ui.from_email.text()
+        config["email"]["password"] = self.ui.email_password.text()
+        config["email"]["smtp_name"] = self.ui.smtp_name.text()
         self.save_config(file_path, config)
 
     def delete_face(self):
@@ -386,7 +401,7 @@ class FaceRegister(QWidget):
         file_name = item.text()
 
         file_path = os.path.join(self.folder_path, file_name)
-        os.system(f'start {file_path}')
+        os.system(f"start {file_path}")
 
     def face_in(self):
         # 获取输入的名称
@@ -416,15 +431,9 @@ class FaceRegister(QWidget):
             self.ui.face_name.setReadOnly(False)
 
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
     window = VisionGuardApp()
+    # window = LoginAccount()
     sys.exit(app.exec())

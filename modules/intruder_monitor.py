@@ -49,6 +49,7 @@ class IntruderMonitor:
             return
         boxes = results[0].boxes.xyxy.cpu()
         track_ids = results[0].boxes.id.int().cpu().tolist()
+        new_track_ids = []
         for box, track_id in zip(boxes, track_ids):
             if not track_id in self.logger:  # 未检验过该目标
                 x1, y1, x2, y2 = box
@@ -79,11 +80,13 @@ class IntruderMonitor:
                         "box": box,  # in xyxy format
                     }
                     print("Know person detected", track_id, box)
+                new_track_ids.append(track_id)
+        return new_track_ids
 
     def __call__(self, frame):
         frame, results = self.tracker(frame)
-        self.detect_intruder(frame, results)
-        return frame, results
+        new_track_ids = self.detect_intruder(frame, results)
+        return frame, results, new_track_ids
 
 
 if __name__ == "__main__":
@@ -99,7 +102,8 @@ if __name__ == "__main__":
         if not success:
             print("Camera is disconnected!")
             break
-        frame, _ = intruder_monitor(frame)
+        frame, _, new_track_ids = intruder_monitor(frame)
+        print(new_track_ids)
         cv2.imshow("Intruder Monitor", frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break

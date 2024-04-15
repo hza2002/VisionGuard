@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 import cv2
 import face_recognition
@@ -64,22 +65,25 @@ class IntruderMonitor:
                     self.verified_faces, unknown_encoding
                 )
 
+                current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 if all(not item for item in compare_results):
                     self.logger[track_id] = {
                         "verified": False,
                         "track_id": track_id,
                         "frame": frame,
                         "box": box,  # in xyxy format
+                        "time": current_time,
                     }
-                    print("Unknow person detected", track_id, box)
+                    print("Unknow person detected", track_id, box, current_time)
                 else:
                     self.logger[track_id] = {
                         "verified": True,
                         "track_id": track_id,
                         "frame": frame,
                         "box": box,  # in xyxy format
+                        "time": current_time,
                     }
-                    print("Know person detected", track_id, box)
+                    print("Unknow person detected", track_id, box, current_time)
                 new_track_ids.append(track_id)
         return new_track_ids
 
@@ -102,8 +106,7 @@ if __name__ == "__main__":
         if not success:
             print("Camera is disconnected!")
             break
-        frame, _, new_track_ids = intruder_monitor(frame)
-        print(new_track_ids)
+        frame, results, new_track_ids = intruder_monitor(frame)
         cv2.imshow("Intruder Monitor", frame)
         if cv2.waitKey(1) & 0xFF == 27:
             break

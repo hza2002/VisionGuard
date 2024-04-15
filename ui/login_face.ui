@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>407</height>
+    <width>701</width>
+    <height>621</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="face_verification_button">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>350</y>
+     <x>110</x>
+     <y>570</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QPushButton" name="return_button">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>350</y>
+     <x>490</x>
+     <y>570</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -42,10 +42,10 @@
   <widget class="QLabel" name="face_img">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>80</y>
-     <width>301</width>
-     <height>251</height>
+     <width>641</width>
+     <height>471</height>
     </rect>
    </property>
    <property name="minimumSize">
@@ -75,7 +75,7 @@
     <rect>
      <x>0</x>
      <y>10</y>
-     <width>381</width>
+     <width>701</width>
      <height>51</height>
     </rect>
    </property>

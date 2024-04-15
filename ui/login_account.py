@@ -37,7 +37,7 @@ class Ui_LoginAccount(object):
         self.label.setAlignment(Qt.AlignCenter)
         self.verticalLayoutWidget = QWidget(LoginAccount)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(80, 170, 62, 81))
+        self.verticalLayoutWidget.setGeometry(QRect(80, 170, 82, 81))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)

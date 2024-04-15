@@ -88,9 +88,9 @@ class IntruderMonitor:
         return new_track_ids
 
     def __call__(self, frame):
-        frame, results = self.tracker(frame)
+        plot_frame, results = self.tracker(frame)
         new_track_ids = self.detect_intruder(frame, results)
-        return frame, results, new_track_ids
+        return plot_frame, results, new_track_ids
 
 
 if __name__ == "__main__":

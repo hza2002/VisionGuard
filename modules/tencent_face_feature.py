@@ -67,6 +67,11 @@ def get_json(img_path):
         clientProfile = ClientProfile()
         clientProfile.signMethod = "TC3-HMAC-SHA256"  # 指定签名算法
         # 实例化一个认证对象
+        config = Config()
+        secretId, secretKey = (
+            config.cfg["tencent"]["secret_id"],
+            config.cfg["tencent"]["secret_key"],
+        )
         cred = credential.Credential(
             secretId, secretKey
         )  # 传入腾讯云账户 secretId，secretKey
@@ -92,7 +97,7 @@ def get_json(img_path):
     return None
 
 
-def face_feature(img_path):
+def run(img_path):
     json_data = get_json(img_path)
     if json_data is None:
         return None
@@ -101,11 +106,9 @@ def face_feature(img_path):
 
 if __name__ == "__main__":
     # 填入自己新建的访问密钥和图片的详细地址
-    secretId = Config().cfg["tencent"]["secret_id"]
-    secretKey = Config().cfg["tencent"]["secret_key"]
     test_img_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "../resource/know_face.jpeg"
     )
-    face_feature = face_feature(test_img_path)
+    face_feature = run(test_img_path)
     print(face_feature)
     print(type(face_feature))

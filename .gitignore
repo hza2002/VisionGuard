@@ -2,3 +2,4 @@ __pycache__
 .DS_Store
 resource/.env
 .idea
+resource/report_chart.png

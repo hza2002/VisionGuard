@@ -30,9 +30,11 @@ class Register:
     def __call__(self, file_name, frame):
         # 若没有检测到人脸返回None
         frame, results = self.tracker(frame)
-        if frame is not None:
-            cv2.imwrite(self.verified_face_path + file_name + ".jpg", frame)
-        return self.detect_face(frame, results)
+        face_image = self.detect_face(frame, results)
+        if face_image is not None:
+            cv2.imwrite(self.verified_face_path + file_name + ".jpg", face_image)
+            return face_image
+        return None
 
 
 if __name__ == "__main__":

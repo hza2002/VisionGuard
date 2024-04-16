@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 
 # 统计每分钟的数据数量和认证状态
-def plot_chart(json, img_path, interval_group):
+def plot_chart(data, interval_group):
     time_data = {}
-    for item in json:
+    for item in data:
         timestamp = data[item]["time"]
         info = data[item]["verified"]
 
@@ -61,7 +61,6 @@ def plot_chart(json, img_path, interval_group):
         label="Unverified",
     )
 
-    # 设置X轴标签和刻度
     plt.xlabel("Interval")
     plt.ylabel("Count")
     plt.xticks(bar_positions_total, intervals, rotation=90)  # 以避免重叠
@@ -69,7 +68,13 @@ def plot_chart(json, img_path, interval_group):
     plt.legend()  # 根据当前绘图的标签自动创建图例
     plt.tight_layout()  # 自动调整子图之间的间距
 
-    plt.savefig(img_path, bbox_inches="tight")
+    img_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "../resource/report_chart.png"
+    )
+    plt.savefig(img_path)
+    # plt.savefig(img_path, bbox_inches="tight")
+    plt.close(fig)  # 关闭图形对象
+    return img_path
 
 
 if __name__ == "__main__":
@@ -125,14 +130,7 @@ if __name__ == "__main__":
         "2024-04-16 12:02:00": {"time": "2024-04-16 12:02:00", "verified": True},
         "2024-04-16 12:02:00": {"time": "2024-04-16 12:02:00", "verified": True},
     }
-
-    img_path = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "../resource/report_chart.png"
-    )
-
-    print(img_path)
-
-    plot_chart(data, img_path, "hour")
+    img_path = plot_chart(data, "hour")
     image = cv2.imread(img_path)
     cv2.imshow("Report Chart", image)
     cv2.waitKey(0)

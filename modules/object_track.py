@@ -1,8 +1,10 @@
 import os
 from collections import defaultdict
+from time import time
 
 import cv2
 import numpy as np
+import torch
 from ultralytics import YOLO
 from ultralytics.solutions import heatmap
 
@@ -24,6 +26,9 @@ class ObjectTrack:
         self.enable_track = enable_track
         self.enable_heatmap = enable_heatmap
 
+        self.start_time = 0
+        self.end_time = 0
+
         self.classes = [0]  # only check person
         model_path = os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
@@ -40,6 +45,22 @@ class ObjectTrack:
             shape="circle",
             classes_names=self.model.names,
         )
+
+    def display_fps(self, frame):
+        self.end_time = time()
+        fps = 1 / np.round(self.end_time - self.start_time, 2)
+        text = f"FPS: {int(fps)}"
+        text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 2)[0]
+        gap = 10
+        cv2.rectangle(
+            frame,
+            (20 - gap, 70 - text_size[1] - gap),
+            (20 + text_size[0] + gap, 70 + gap),
+            (255, 255, 255),
+            -1,
+        )
+        cv2.putText(frame, text, (20, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 2)
+        return frame
 
     def plot_heatmap(self, frame, results):
         return self.heatmap_obj.generate_heatmap(frame, results)
@@ -69,11 +90,16 @@ class ObjectTrack:
 
     def run(self, frame):
         results = self.model.track(
-            frame, persist=True, classes=self.classes, verbose=False
+            frame,
+            persist=True,
+            classes=self.classes,
+            verbose=False,
+            device="cuda" if torch.cuda.is_available() else "cpu",
         )
         return results
 
     def __call__(self, frame):
+        self.start_time = time()
         results = self.run(frame)
         if self.enable_detect:
             frame = results[0].plot()
@@ -81,6 +107,7 @@ class ObjectTrack:
             frame = self.plot_track(frame, results)
         if self.enable_heatmap:
             frame = self.plot_heatmap(frame, results)
+        frame = self.display_fps(frame)
         return frame, results
 
 
@@ -90,7 +117,7 @@ if __name__ == "__main__":
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     object_track = ObjectTrack(
-        w, h, enable_detect=True, enable_track=True, enable_heatmap=True
+        w, h, enable_detect=True, enable_track=False, enable_heatmap=False
     )
     while cap.isOpened():
         success, frame = cap.read()

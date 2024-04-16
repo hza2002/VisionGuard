@@ -5,12 +5,9 @@ import sys
 
 import cv2
 import qdarkstyle
-from PySide6.QtCore import *
-from PySide6.QtCore import Qt
+from PySide6.QtCore import QTimer
 from PySide6.QtGui import *
-from PySide6.QtGui import QHideEvent, QShowEvent
-from PySide6.QtWidgets import *
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QApplication, QListWidgetItem, QMessageBox, QWidget
 
 import modules.summary_chart as summary
 import modules.tencent_face_feature as face_feature
@@ -48,7 +45,7 @@ class VisionGuardApp(QWidget):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
-        self.timer.start(1000 / 25)
+        self.timer.start(1000 / 15)
 
         # 复选框按钮
         self.ui.track_detection.stateChanged.connect(self.toggle_track)
@@ -94,7 +91,7 @@ class VisionGuardApp(QWidget):
     def on_item_clicked(self, item):
         id = int(item.text().split()[2])
         # plot whole frame
-        whole_frame = cv2.resize(self.intruder_monitor.logger[id]["frame"], (299, 151))
+        whole_frame = cv2.resize(self.intruder_monitor.logger[id]["frame"], (360, 202))
         h, w, ch = whole_frame.shape
         bytes_per_line = ch * w
         q_img = QImage(whole_frame, w, h, bytes_per_line, QImage.Format_BGR888)
@@ -102,7 +99,10 @@ class VisionGuardApp(QWidget):
         self.ui.whole_img.setPixmap(pixmap)
         # plot face frame
         x1, y1, x2, y2 = self.intruder_monitor.logger[id]["box"]
-        face_frame = whole_frame[int(y1) : int(y2), int(x1) : int(x2)]
+        face_frame = self.intruder_monitor.logger[id]["frame"][
+            int(y1) : int(y2), int(x1) : int(x2)
+        ]
+        face_frame = cv2.resize(face_frame, (202, 202))
         h, w, ch = face_frame.shape
         bytes_per_line = ch * w
         q_img = QImage(face_frame, w, h, bytes_per_line, QImage.Format_BGR888)
@@ -178,6 +178,9 @@ class LoginAccount(QWidget):
         self.ui.setupUi(self)
         self.setWindowTitle("账户登录")
         self.login = Login()
+        pixmap = QPixmap("resource/logo/icon.png")
+        pixmap = pixmap.scaled(self.ui.icon.width(), self.ui.icon.height())
+        self.ui.icon.setPixmap(pixmap)
 
 
 class LoginFace(QWidget):
@@ -223,9 +226,9 @@ class FaceRegister(QWidget):
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
-        self.timer.start(1000 / 30)
+        self.timer.start(1000 / 15)
 
-        self.register = Register(611, 821)
+        self.register = Register(720, 450)
 
         self.ui.register_completeness.setRange(0, 100)
         self.ui.register_completeness.setValue(0)
@@ -241,7 +244,9 @@ class FaceRegister(QWidget):
         self.click_count = 0
 
         # 加载人脸库
-        self.folder_path = "resource/verified_face"
+        self.folder_path = os.path.join(
+            os.path.dirname(__file__), "resource", "verified_face"
+        )
         self.load_face_bank()
 
         # 加载邮箱
@@ -303,10 +308,10 @@ class FaceRegister(QWidget):
     def open_file(self, item):
         # 获取双击的文件名
         file_name = item.text()
-
         file_path = os.path.join(self.folder_path, file_name)
         if sys.platform.startswith("win"):  # Windows
-            subprocess.run(["start", file_path])
+            os.startfile(file_path)
+            # subprocess.run(["start", file_path])
         elif sys.platform.startswith("darwin"):  # macOS
             subprocess.run(["open", file_path])
         elif sys.platform.startswith("linux"):  # Linux
@@ -322,11 +327,6 @@ class FaceRegister(QWidget):
             return
         self.ui.face_name.setReadOnly(True)
 
-        # 更新进度条
-        self.click_count += 1
-        progress = self.click_count * 20
-        self.ui.register_completeness.setValue(progress)
-
         # 截取帧并保存到文件夹中
         ret, frame = self.camera.read()
         if not ret:
@@ -336,6 +336,11 @@ class FaceRegister(QWidget):
         if register_image is None:
             QMessageBox.information(self, "提示", "检测到多张人脸或未检测到人脸")
             return
+        else:
+            self.click_count += 1
+            progress = self.click_count * 20
+            self.ui.register_completeness.setValue(progress)
+
         self.load_face_bank()
 
         # 如果已经点击了五次，显示提示框
@@ -392,9 +397,8 @@ class MainWindow:
             self.vision_guard = VisionGuardApp()
             self.vision_guard.ui.settings.clicked.connect(self.switch_to_register)
             self.vision_guard.show()
-            QMessageBox.information(
-                self.login_account, "Login Success", "Welcome to the vision guard"
-            )
+            self.login_face.hide()
+            self.login_account.hide()
             self.login_face.close()
             self.login_account.close()
         else:
@@ -417,9 +421,8 @@ class MainWindow:
                 self.vision_guard = VisionGuardApp()
                 self.vision_guard.ui.settings.clicked.connect(self.switch_to_register)
                 self.vision_guard.show()
-                QMessageBox.information(
-                    self.login_face, "Login Success", "Welcome to the vision guard"
-                )
+                self.login_face.hide()
+                self.login_account.hide()
                 self.login_face.close()
                 self.login_account.close()
             else:

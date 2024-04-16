@@ -40,8 +40,8 @@ class Ui_LoginAccount(object):
 
         self.icon = QLabel(self.verticalLayoutWidget_3)
         self.icon.setObjectName(u"icon")
-        self.icon.setMinimumSize(QSize(85, 85))
-        self.icon.setMaximumSize(QSize(85, 85))
+        self.icon.setMinimumSize(QSize(90, 85))
+        self.icon.setMaximumSize(QSize(90, 85))
 
         self.horizontalLayout_3.addWidget(self.icon)
 

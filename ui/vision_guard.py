@@ -133,6 +133,8 @@ class Ui_VisionGuard(object):
         self.formLayout.setObjectName(u"formLayout")
         self.label_7 = QLabel(VisionGuard)
         self.label_7.setObjectName(u"label_7")
+        self.label_7.setMinimumSize(QSize(40, 25))
+        self.label_7.setMaximumSize(QSize(40, 25))
         font1 = QFont()
         font1.setPointSize(12)
         self.label_7.setFont(font1)
@@ -141,6 +143,8 @@ class Ui_VisionGuard(object):
 
         self.gender = QLabel(VisionGuard)
         self.gender.setObjectName(u"gender")
+        self.gender.setMinimumSize(QSize(122, 25))
+        self.gender.setMaximumSize(QSize(16777215, 25))
         self.gender.setFont(font1)
         self.gender.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"
@@ -150,12 +154,16 @@ class Ui_VisionGuard(object):
 
         self.label_5 = QLabel(VisionGuard)
         self.label_5.setObjectName(u"label_5")
+        self.label_5.setMinimumSize(QSize(40, 25))
+        self.label_5.setMaximumSize(QSize(40, 25))
         self.label_5.setFont(font1)
 
         self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_5)
 
         self.age = QLabel(VisionGuard)
         self.age.setObjectName(u"age")
+        self.age.setMinimumSize(QSize(122, 25))
+        self.age.setMaximumSize(QSize(16777215, 25))
         self.age.setFont(font1)
         self.age.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"
@@ -165,12 +173,16 @@ class Ui_VisionGuard(object):
 
         self.label = QLabel(VisionGuard)
         self.label.setObjectName(u"label")
+        self.label.setMinimumSize(QSize(40, 25))
+        self.label.setMaximumSize(QSize(40, 25))
         self.label.setFont(font1)
 
         self.formLayout.setWidget(2, QFormLayout.LabelRole, self.label)
 
         self.appearance = QLabel(VisionGuard)
         self.appearance.setObjectName(u"appearance")
+        self.appearance.setMinimumSize(QSize(122, 25))
+        self.appearance.setMaximumSize(QSize(16777215, 25))
         self.appearance.setFont(font1)
         self.appearance.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"
@@ -180,12 +192,16 @@ class Ui_VisionGuard(object):
 
         self.label_6 = QLabel(VisionGuard)
         self.label_6.setObjectName(u"label_6")
+        self.label_6.setMinimumSize(QSize(40, 25))
+        self.label_6.setMaximumSize(QSize(40, 25))
         self.label_6.setFont(font1)
 
         self.formLayout.setWidget(3, QFormLayout.LabelRole, self.label_6)
 
         self.hair = QLabel(VisionGuard)
         self.hair.setObjectName(u"hair")
+        self.hair.setMinimumSize(QSize(122, 25))
+        self.hair.setMaximumSize(QSize(16777215, 25))
         self.hair.setFont(font1)
         self.hair.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"
@@ -195,12 +211,16 @@ class Ui_VisionGuard(object):
 
         self.label_2 = QLabel(VisionGuard)
         self.label_2.setObjectName(u"label_2")
+        self.label_2.setMinimumSize(QSize(40, 25))
+        self.label_2.setMaximumSize(QSize(40, 25))
         self.label_2.setFont(font1)
 
         self.formLayout.setWidget(4, QFormLayout.LabelRole, self.label_2)
 
         self.expression = QLabel(VisionGuard)
         self.expression.setObjectName(u"expression")
+        self.expression.setMinimumSize(QSize(122, 25))
+        self.expression.setMaximumSize(QSize(16777215, 25))
         self.expression.setFont(font1)
         self.expression.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"
@@ -210,12 +230,16 @@ class Ui_VisionGuard(object):
 
         self.label_9 = QLabel(VisionGuard)
         self.label_9.setObjectName(u"label_9")
+        self.label_9.setMinimumSize(QSize(40, 25))
+        self.label_9.setMaximumSize(QSize(40, 25))
         self.label_9.setFont(font1)
 
         self.formLayout.setWidget(5, QFormLayout.LabelRole, self.label_9)
 
         self.clothes = QLabel(VisionGuard)
         self.clothes.setObjectName(u"clothes")
+        self.clothes.setMinimumSize(QSize(122, 25))
+        self.clothes.setMaximumSize(QSize(16777215, 25))
         self.clothes.setFont(font1)
         self.clothes.setStyleSheet(u"border-width: 2px;\n"
 "border-style: solid;\n"

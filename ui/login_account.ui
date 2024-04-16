@@ -54,13 +54,13 @@
        <widget class="QLabel" name="icon">
         <property name="minimumSize">
          <size>
-          <width>85</width>
+          <width>90</width>
           <height>85</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>85</width>
+          <width>90</width>
           <height>85</height>
          </size>
         </property>

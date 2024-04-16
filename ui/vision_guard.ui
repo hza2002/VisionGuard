@@ -247,6 +247,18 @@
           <layout class="QFormLayout" name="formLayout">
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -259,6 +271,18 @@
            </item>
            <item row="0" column="1">
             <widget class="QLabel" name="gender">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -276,6 +300,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_5">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -288,6 +324,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="1" column="1">
             <widget class="QLabel" name="age">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -305,6 +353,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -317,6 +377,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="2" column="1">
             <widget class="QLabel" name="appearance">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -334,6 +406,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_6">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -346,6 +430,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="3" column="1">
             <widget class="QLabel" name="hair">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -363,6 +459,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -375,6 +483,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="4" column="1">
             <widget class="QLabel" name="expression">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -392,6 +512,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_9">
+             <property name="minimumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>40</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>
@@ -404,6 +536,18 @@ border-color: rgb(255, 255, 255);</string>
            </item>
            <item row="5" column="1">
             <widget class="QLabel" name="clothes">
+             <property name="minimumSize">
+              <size>
+               <width>122</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>25</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <pointsize>12</pointsize>

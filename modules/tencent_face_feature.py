@@ -20,10 +20,10 @@ def describe_face_feature(data):
     gender = "男性" if face_features.get("Gender") >= 50 else "女性"
     age = face_features.get("Age")
     expression = face_features.get("Expression")
-    glass = "戴眼镜" if face_features.get("Glass") else "不戴眼镜"
+    glass = "有眼镜" if face_features.get("Glass") else "无眼镜"
     beauty = face_features.get("Beauty")
-    hat = "戴帽子" if face_features.get("Hat") else "不戴帽子"
-    mask = "戴口罩" if face_features.get("Mask") else "不戴口罩"
+    hat = "有帽子" if face_features.get("Hat") else "无帽子"
+    mask = "有口罩" if face_features.get("Mask") else "无口罩"
     eye_open = "睁眼" if face_features.get("EyeOpen") else "闭眼"
     hair = face_features.get("Hair")
     hair_length = {

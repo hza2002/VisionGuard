@@ -1,5 +1,6 @@
 import os
 from collections import defaultdict
+from datetime import datetime
 from time import time
 
 import cv2
@@ -49,17 +50,9 @@ class ObjectTrack:
     def display_fps(self, frame):
         self.end_time = time()
         fps = 1 / np.round(self.end_time - self.start_time, 2)
-        text = f"FPS: {int(fps)}"
-        text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, 1.0, 2)[0]
-        gap = 10
-        cv2.rectangle(
-            frame,
-            (20 - gap, 70 - text_size[1] - gap),
-            (20 + text_size[0] + gap, 70 + gap),
-            (255, 255, 255),
-            -1,
-        )
-        cv2.putText(frame, text, (20, 70), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 2)
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        text = current_time + f" FPS: {int(fps)}"
+        cv2.putText(frame, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
         return frame
 
     def plot_heatmap(self, frame, results):

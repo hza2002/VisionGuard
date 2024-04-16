@@ -4,10 +4,10 @@ import subprocess
 import sys
 
 import cv2
+import numpy as np
 import qdarkstyle
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import QImage, QPixmap, QColor, QIcon, Qt
-
+from PySide6.QtGui import QColor, QIcon, QImage, QPixmap, Qt
 from PySide6.QtWidgets import QApplication, QListWidgetItem, QMessageBox, QWidget
 
 import modules.summary_chart as summary
@@ -51,20 +51,20 @@ class VisionGuardApp(QWidget):
         self.interval = "min"  # default "每分钟":
         self.ui.summary_type.currentIndexChanged.connect(self.handleComboBox)
 
-
-
     def update_frame(self):
-        success, qframe = self.camera.read()
-        if not success:
+        ret, frame = self.camera.read()
+        if not ret:
             return
-
-        qframe = cv2.resize(qframe, (self.ui.video_screen.width(), self.ui.video_screen.height()))
-        qframe, _, ids = self.intruder_monitor(qframe)
-        qframe = cv2.cvtColor(qframe, cv2.COLOR_BGR2RGB)  # BGR -> RGB
-        h, w, ch = qframe.shape
+        shape = (self.ui.video_screen.width(), self.ui.video_screen.height())
+        frame = cv2.resize(frame, shape)
+        frame, _, ids = self.intruder_monitor(frame)
+        h, w, ch = frame.shape
         bytes_per_line = ch * w
-        q_img = QImage(qframe.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        self.ui.video_screen.setPixmap(QPixmap.fromImage(q_img))
+        q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_BGR888)
+        scaled_q_img = q_img.scaled(
+            self.ui.video_screen.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        self.ui.video_screen.setPixmap(QPixmap.fromImage(scaled_q_img))
 
         if self.recorded_logger != len(self.intruder_monitor.logger):  # 更新了logger
             for id in ids:
@@ -90,22 +90,29 @@ class VisionGuardApp(QWidget):
     def on_item_clicked(self, item):
         id = int(item.text().split()[2])
         # plot whole frame
-        whole_frame = cv2.resize(self.intruder_monitor.logger[id]["frame"], (360, 202))
+        whole_frame = self.intruder_monitor.logger[id]["frame"]
         h, w, ch = whole_frame.shape
         bytes_per_line = ch * w
         q_img = QImage(whole_frame, w, h, bytes_per_line, QImage.Format_BGR888)
-        pixmap = QPixmap.fromImage(q_img)
+        scaled_q_img = q_img.scaled(
+            self.ui.whole_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        pixmap = QPixmap.fromImage(scaled_q_img)
         self.ui.whole_img.setPixmap(pixmap)
         # plot face frame
         x1, y1, x2, y2 = self.intruder_monitor.logger[id]["box"]
         face_frame = self.intruder_monitor.logger[id]["frame"][
             int(y1) : int(y2), int(x1) : int(x2)
         ]
-        face_frame = cv2.resize(face_frame, (202, 202))
         h, w, ch = face_frame.shape
         bytes_per_line = ch * w
+        # 确保 face_frame 是 C 连续的
+        face_frame = np.ascontiguousarray(face_frame)
         q_img = QImage(face_frame, w, h, bytes_per_line, QImage.Format_BGR888)
-        pixmap = QPixmap.fromImage(q_img)
+        scaled_q_img = q_img.scaled(
+            self.ui.face_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
+        pixmap = QPixmap.fromImage(scaled_q_img)
         self.ui.face_img.setPixmap(pixmap)
         # get face feature
         filename = "face_feature.jpg"
@@ -117,19 +124,9 @@ class VisionGuardApp(QWidget):
         # show face feature
         self.ui.gender.setText(str(result["Gender"]))
         self.ui.expression.setText(str(result["Smile"]))
-        self.ui.clothes.setText(
-            str(result["Glass"] + "/" + result["Hat"] + "/" + result["Mask"])
-        )
+        self.ui.clothes.setText(str(result["Glass"] + "/" + result["Hat"]))
         self.ui.appearance.setText(str(result["Beauty"]))
-        self.ui.hair.setText(
-            str(
-                result["Hair Length"]
-                + "/"
-                + result["Hair Bang"]
-                + "/"
-                + result["Hair Color"]
-            )
-        )
+        self.ui.hair.setText(str(result["Hair Length"] + "/" + result["Hair Color"]))
         self.ui.age.setText(str(result["Age"]))
 
     def toggle_track(self, state):
@@ -141,7 +138,9 @@ class VisionGuardApp(QWidget):
     def update_summary(self):
         img_path = summary.plot_chart(self.intruder_monitor.logger, self.interval)
         q_img = QImage(img_path)
-        scaled_q_img = q_img.scaled(self.ui.summary_plot.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
+        scaled_q_img = q_img.scaled(
+            self.ui.summary_plot.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
+        )
         self.ui.summary_plot.setPixmap(QPixmap.fromImage(scaled_q_img))
 
     def handleComboBox(self, index):
@@ -163,11 +162,7 @@ class VisionGuardApp(QWidget):
         event.accept()
 
     def showEvent(self, event):
-        # 设置摄像头捕获的帧大小
         self.camera = cv2.VideoCapture(0)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.ui.video_screen.width())
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.ui.video_screen.height())
-
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000 / 15)
@@ -203,18 +198,18 @@ class LoginFace(QWidget):
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000 / 25)
 
-
         self.login = Login()
 
     def update_frame(self):
         ret, frame = self.camera.read()
         if ret:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = cv2.resize(frame, (641, 360))
             h, w, ch = frame.shape
             bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-            self.ui.face_img.setPixmap(QPixmap.fromImage(q_img))
+            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_BGR888)
+            scaled_q_img = q_img.scaled(
+                self.ui.face_img.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+            self.ui.face_img.setPixmap(QPixmap.fromImage(scaled_q_img))
 
     def closeEvent(self, event):
         self.camera.release()
@@ -230,7 +225,9 @@ class FaceRegister(QWidget):
         icon = QIcon("resource/logo/window_icon.png")
         self.setWindowIcon(icon)
 
-        self.register = Register(720, 450)
+        self.register = Register(
+            self.ui.video_screen.width(), self.ui.video_screen.height()
+        )
 
         self.ui.register_completeness.setRange(0, 100)
         self.ui.register_completeness.setValue(0)
@@ -264,12 +261,13 @@ class FaceRegister(QWidget):
     def update_frame(self):
         ret, frame = self.camera.read()
         if ret:
-            frame = cv2.resize(frame, (720, 450))
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             h, w, ch = frame.shape
             bytes_per_line = ch * w
-            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
-            self.ui.video_screen.setPixmap(QPixmap.fromImage(q_img))
+            q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_BGR888)
+            scaled_q_img = q_img.scaled(
+                self.ui.video_screen.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            )
+            self.ui.video_screen.setPixmap(QPixmap.fromImage(scaled_q_img))
 
     def load_face_bank(self):
         self.ui.face_bank.clear()

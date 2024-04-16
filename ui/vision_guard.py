@@ -16,26 +16,27 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QAbstractItemView, QApplication, QCheckBox, QComboBox,
-    QDialog, QFrame, QHBoxLayout, QLabel,
-    QListWidget, QListWidgetItem, QPushButton, QSizePolicy,
-    QSpacerItem, QVBoxLayout, QWidget)
+    QDialog, QFrame, QGridLayout, QHBoxLayout,
+    QLabel, QListWidget, QListWidgetItem, QPushButton,
+    QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 class Ui_VisionGuard(object):
     def setupUi(self, VisionGuard):
         if not VisionGuard.objectName():
             VisionGuard.setObjectName(u"VisionGuard")
-        VisionGuard.resize(951, 710)
-        self.horizontalLayoutWidget_3 = QWidget(VisionGuard)
-        self.horizontalLayoutWidget_3.setObjectName(u"horizontalLayoutWidget_3")
-        self.horizontalLayoutWidget_3.setGeometry(QRect(10, 10, 933, 689))
-        self.horizontalLayout_4 = QHBoxLayout(self.horizontalLayoutWidget_3)
+        VisionGuard.resize(1083, 721)
+        VisionGuard.setMinimumSize(QSize(1083, 721))
+        VisionGuard.setMaximumSize(QSize(1083, 721))
+        VisionGuard.setSizeIncrement(QSize(951, 710))
+        self.gridLayout = QGridLayout(VisionGuard)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.function_list = QLabel(self.horizontalLayoutWidget_3)
+        self.function_list = QLabel(VisionGuard)
         self.function_list.setObjectName(u"function_list")
         font = QFont()
         font.setPointSize(12)
@@ -44,7 +45,7 @@ class Ui_VisionGuard(object):
 
         self.horizontalLayout_10.addWidget(self.function_list)
 
-        self.security_alarm = QCheckBox(self.horizontalLayoutWidget_3)
+        self.security_alarm = QCheckBox(VisionGuard)
         self.security_alarm.setObjectName(u"security_alarm")
         self.security_alarm.setEnabled(True)
         self.security_alarm.setMouseTracking(True)
@@ -56,12 +57,12 @@ class Ui_VisionGuard(object):
 
         self.horizontalLayout_10.addWidget(self.security_alarm)
 
-        self.track_detection = QCheckBox(self.horizontalLayoutWidget_3)
+        self.track_detection = QCheckBox(VisionGuard)
         self.track_detection.setObjectName(u"track_detection")
 
         self.horizontalLayout_10.addWidget(self.track_detection)
 
-        self.heatmap = QCheckBox(self.horizontalLayoutWidget_3)
+        self.heatmap = QCheckBox(VisionGuard)
         self.heatmap.setObjectName(u"heatmap")
 
         self.horizontalLayout_10.addWidget(self.heatmap)
@@ -70,7 +71,7 @@ class Ui_VisionGuard(object):
 
         self.horizontalLayout_10.addItem(self.horizontalSpacer)
 
-        self.settings = QPushButton(self.horizontalLayoutWidget_3)
+        self.settings = QPushButton(VisionGuard)
         self.settings.setObjectName(u"settings")
         self.settings.setMinimumSize(QSize(100, 30))
 
@@ -79,9 +80,10 @@ class Ui_VisionGuard(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_10)
 
-        self.video_screen = QLabel(self.horizontalLayoutWidget_3)
+        self.video_screen = QLabel(VisionGuard)
         self.video_screen.setObjectName(u"video_screen")
-        self.video_screen.setMinimumSize(QSize(670, 450))
+        self.video_screen.setMinimumSize(QSize(720, 405))
+        self.video_screen.setMaximumSize(QSize(720, 405))
         self.video_screen.setAutoFillBackground(False)
         self.video_screen.setStyleSheet(u"background-color: rgb(0, 0, 0);")
         self.video_screen.setFrameShadow(QFrame.Plain)
@@ -90,7 +92,7 @@ class Ui_VisionGuard(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.label_8 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_8 = QLabel(VisionGuard)
         self.label_8.setObjectName(u"label_8")
         self.label_8.setMinimumSize(QSize(0, 0))
         self.label_8.setFont(font)
@@ -108,18 +110,20 @@ class Ui_VisionGuard(object):
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.whole_img = QLabel(self.horizontalLayoutWidget_3)
+        self.whole_img = QLabel(VisionGuard)
         self.whole_img.setObjectName(u"whole_img")
-        self.whole_img.setMinimumSize(QSize(100, 120))
+        self.whole_img.setMinimumSize(QSize(360, 202))
+        self.whole_img.setMaximumSize(QSize(360, 202))
         self.whole_img.setAutoFillBackground(False)
         self.whole_img.setStyleSheet(u"background-color: rgb(0, 0, 0);")
         self.whole_img.setFrameShadow(QFrame.Plain)
 
         self.horizontalLayout_2.addWidget(self.whole_img)
 
-        self.face_img = QLabel(self.horizontalLayoutWidget_3)
+        self.face_img = QLabel(VisionGuard)
         self.face_img.setObjectName(u"face_img")
-        self.face_img.setMinimumSize(QSize(100, 120))
+        self.face_img.setMinimumSize(QSize(202, 202))
+        self.face_img.setMaximumSize(QSize(202, 202))
         self.face_img.setAutoFillBackground(False)
         self.face_img.setStyleSheet(u"background-color: rgb(0, 0, 0);")
         self.face_img.setFrameShadow(QFrame.Plain)
@@ -128,32 +132,32 @@ class Ui_VisionGuard(object):
 
         self.verticalLayout_5 = QVBoxLayout()
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.label_7 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_7 = QLabel(VisionGuard)
         self.label_7.setObjectName(u"label_7")
 
         self.verticalLayout_5.addWidget(self.label_7)
 
-        self.label_5 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_5 = QLabel(VisionGuard)
         self.label_5.setObjectName(u"label_5")
 
         self.verticalLayout_5.addWidget(self.label_5)
 
-        self.label = QLabel(self.horizontalLayoutWidget_3)
+        self.label = QLabel(VisionGuard)
         self.label.setObjectName(u"label")
 
         self.verticalLayout_5.addWidget(self.label)
 
-        self.label_6 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_6 = QLabel(VisionGuard)
         self.label_6.setObjectName(u"label_6")
 
         self.verticalLayout_5.addWidget(self.label_6)
 
-        self.label_9 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_9 = QLabel(VisionGuard)
         self.label_9.setObjectName(u"label_9")
 
         self.verticalLayout_5.addWidget(self.label_9)
 
-        self.label_2 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_2 = QLabel(VisionGuard)
         self.label_2.setObjectName(u"label_2")
 
         self.verticalLayout_5.addWidget(self.label_2)
@@ -163,32 +167,32 @@ class Ui_VisionGuard(object):
 
         self.verticalLayout_6 = QVBoxLayout()
         self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.gender = QLabel(self.horizontalLayoutWidget_3)
+        self.gender = QLabel(VisionGuard)
         self.gender.setObjectName(u"gender")
 
         self.verticalLayout_6.addWidget(self.gender)
 
-        self.age = QLabel(self.horizontalLayoutWidget_3)
+        self.age = QLabel(VisionGuard)
         self.age.setObjectName(u"age")
 
         self.verticalLayout_6.addWidget(self.age)
 
-        self.appearance = QLabel(self.horizontalLayoutWidget_3)
+        self.appearance = QLabel(VisionGuard)
         self.appearance.setObjectName(u"appearance")
 
         self.verticalLayout_6.addWidget(self.appearance)
 
-        self.hair = QLabel(self.horizontalLayoutWidget_3)
+        self.hair = QLabel(VisionGuard)
         self.hair.setObjectName(u"hair")
 
         self.verticalLayout_6.addWidget(self.hair)
 
-        self.clothes = QLabel(self.horizontalLayoutWidget_3)
+        self.clothes = QLabel(VisionGuard)
         self.clothes.setObjectName(u"clothes")
 
         self.verticalLayout_6.addWidget(self.clothes)
 
-        self.expression = QLabel(self.horizontalLayoutWidget_3)
+        self.expression = QLabel(VisionGuard)
         self.expression.setObjectName(u"expression")
 
         self.verticalLayout_6.addWidget(self.expression)
@@ -210,42 +214,43 @@ class Ui_VisionGuard(object):
 
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.horizontalLayout_15 = QHBoxLayout()
-        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
-        self.label_3 = QLabel(self.horizontalLayoutWidget_3)
+        self.verticalLayout_7 = QVBoxLayout()
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.label_3 = QLabel(VisionGuard)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setFont(font)
 
-        self.horizontalLayout_15.addWidget(self.label_3)
+        self.horizontalLayout_5.addWidget(self.label_3)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_15.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_3)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_15)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_5)
 
-        self.alarm_list = QListWidget(self.horizontalLayoutWidget_3)
+        self.alarm_list = QListWidget(VisionGuard)
         self.alarm_list.setObjectName(u"alarm_list")
-        self.alarm_list.setMinimumSize(QSize(250, 200))
-        self.alarm_list.setSizeIncrement(QSize(319, 300))
+        self.alarm_list.setMinimumSize(QSize(320, 420))
+        self.alarm_list.setMaximumSize(QSize(320, 420))
+        self.alarm_list.setSizeIncrement(QSize(320, 420))
         self.alarm_list.setSelectionBehavior(QAbstractItemView.SelectItems)
         self.alarm_list.setSelectionRectVisible(False)
 
-        self.verticalLayout_3.addWidget(self.alarm_list)
+        self.verticalLayout_7.addWidget(self.alarm_list)
 
-        self.verticalLayout_4 = QVBoxLayout()
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.horizontalLayout_16 = QHBoxLayout()
         self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
-        self.label_4 = QLabel(self.horizontalLayoutWidget_3)
+        self.label_4 = QLabel(VisionGuard)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setMinimumSize(QSize(80, 0))
         self.label_4.setFont(font)
 
         self.horizontalLayout_16.addWidget(self.label_4)
 
-        self.summary_type = QComboBox(self.horizontalLayoutWidget_3)
+        self.summary_type = QComboBox(VisionGuard)
         self.summary_type.addItem("")
         self.summary_type.addItem("")
         self.summary_type.addItem("")
@@ -254,9 +259,9 @@ class Ui_VisionGuard(object):
         self.horizontalLayout_16.addWidget(self.summary_type)
 
 
-        self.verticalLayout_4.addLayout(self.horizontalLayout_16)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_16)
 
-        self.summary_plot = QLabel(self.horizontalLayoutWidget_3)
+        self.summary_plot = QLabel(VisionGuard)
         self.summary_plot.setObjectName(u"summary_plot")
         self.summary_plot.setEnabled(True)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -264,18 +269,22 @@ class Ui_VisionGuard(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.summary_plot.sizePolicy().hasHeightForWidth())
         self.summary_plot.setSizePolicy(sizePolicy)
-        self.summary_plot.setMinimumSize(QSize(0, 250))
-        self.summary_plot.setSizeIncrement(QSize(0, 0))
+        self.summary_plot.setMinimumSize(QSize(320, 210))
+        self.summary_plot.setMaximumSize(QSize(320, 210))
+        self.summary_plot.setSizeIncrement(QSize(320, 210))
         self.summary_plot.setAutoFillBackground(False)
         self.summary_plot.setStyleSheet(u"background-color: rgb(255, 255, 255);")
 
-        self.verticalLayout_4.addWidget(self.summary_plot)
+        self.verticalLayout_7.addWidget(self.summary_plot)
 
 
-        self.verticalLayout_3.addLayout(self.verticalLayout_4)
+        self.verticalLayout_3.addLayout(self.verticalLayout_7)
 
 
         self.horizontalLayout_4.addLayout(self.verticalLayout_3)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_4, 0, 0, 1, 1)
 
 
         self.retranslateUi(VisionGuard)

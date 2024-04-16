@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>701</width>
-    <height>621</height>
+    <width>681</width>
+    <height>441</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>681</width>
+    <height>440</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>681</width>
+    <height>441</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>人脸登录界面</string>
@@ -16,8 +28,8 @@
   <widget class="QPushButton" name="face_verification_button">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>570</y>
+     <x>90</x>
+     <y>400</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -29,8 +41,8 @@
   <widget class="QPushButton" name="return_button">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>570</y>
+     <x>480</x>
+     <y>400</y>
      <width>101</width>
      <height>31</height>
     </rect>
@@ -42,16 +54,22 @@
   <widget class="QLabel" name="face_img">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>80</y>
+     <x>20</x>
+     <y>20</y>
      <width>641</width>
-     <height>471</height>
+     <height>360</height>
     </rect>
    </property>
    <property name="minimumSize">
     <size>
-     <width>95</width>
-     <height>95</height>
+     <width>641</width>
+     <height>360</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>641</width>
+     <height>360</height>
     </size>
    </property>
    <property name="layoutDirection">
@@ -68,29 +86,6 @@
    </property>
    <property name="openExternalLinks">
     <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>10</y>
-     <width>701</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>22</pointsize>
-     <italic>false</italic>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>人脸验证登录</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

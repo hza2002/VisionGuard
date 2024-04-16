@@ -104,7 +104,10 @@ class Ui_LoginAccount(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer_7)
 
-        self.horizontalLayout.setStretch(2, 4)
+        self.horizontalLayout.setStretch(0, 1)
+        self.horizontalLayout.setStretch(1, 1)
+        self.horizontalLayout.setStretch(2, 3)
+        self.horizontalLayout.setStretch(3, 1)
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 

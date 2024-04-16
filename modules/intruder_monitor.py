@@ -21,8 +21,11 @@ class IntruderMonitor:
         )
         self.logger = dict()
 
-        # 加载已知人脸
         self.verified_faces = []
+        self.load_verified_faces()
+
+    def load_verified_faces(self):
+        # 加载已知人脸
         files = os.listdir(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)), "../resource/verified_face/"
@@ -31,18 +34,21 @@ class IntruderMonitor:
         face_images = [
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
-                "../resource/verified_face",
+                "..",
+                "resource",
+                "verified_face",
                 file,
             )
             for file in files
             if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".jpeg")
         ]
-        for image in face_images:
+        for face_image in face_images:
             try:
-                verified_face = face_recognition.load_image_file(image)
+                verified_face = face_recognition.load_image_file(face_image)
                 verified_encoding = face_recognition.face_encodings(verified_face)[0]
                 self.verified_faces.append(verified_encoding)
-            except IndexError:
+            except Exception as e:
+                print("Error:", e)
                 continue
 
     def detect_intruder(self, frame, results):
@@ -62,7 +68,7 @@ class IntruderMonitor:
                 except IndexError:
                     continue
                 compare_results = face_recognition.compare_faces(
-                    self.verified_faces, unknown_encoding
+                    self.verified_faces, unknown_encoding, 0.8
                 )
 
                 current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -83,7 +89,7 @@ class IntruderMonitor:
                         "box": box,  # in xyxy format
                         "time": current_time,
                     }
-                    print("Unknow person detected", track_id, box, current_time)
+                    print("know person detected", track_id, box, current_time)
                 new_track_ids.append(track_id)
         return new_track_ids
 

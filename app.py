@@ -6,7 +6,8 @@ import sys
 import cv2
 import qdarkstyle
 from PySide6.QtCore import QTimer
-from PySide6.QtGui import *
+from PySide6.QtGui import QImage, QPixmap, QColor, QIcon, Qt
+
 from PySide6.QtWidgets import QApplication, QListWidgetItem, QMessageBox, QWidget
 
 import modules.summary_chart as summary
@@ -27,6 +28,8 @@ class VisionGuardApp(QWidget):
         self.ui = VisionGuardMainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("VisionGuard")
+        icon = QIcon("resource/logo/window_icon.png")
+        self.setWindowIcon(icon)
 
         self.intruder_monitor = IntruderMonitor(
             self.ui.video_screen.width(),
@@ -35,17 +38,9 @@ class VisionGuardApp(QWidget):
             enable_track=False,
             enable_heatmap=False,
         )
-        # 设置摄像头捕获的帧大小
-        self.camera = cv2.VideoCapture(0)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.ui.video_screen.width())
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.ui.video_screen.height())
 
         self.recorded_logger = 0  # 已经记录日志数量
         self.email_count = 0
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_frame)
-        self.timer.start(1000 / 15)
 
         # 复选框按钮
         self.ui.track_detection.stateChanged.connect(self.toggle_track)
@@ -56,11 +51,14 @@ class VisionGuardApp(QWidget):
         self.interval = "min"  # default "每分钟":
         self.ui.summary_type.currentIndexChanged.connect(self.handleComboBox)
 
+
+
     def update_frame(self):
         success, qframe = self.camera.read()
         if not success:
             return
 
+        qframe = cv2.resize(qframe, (self.ui.video_screen.width(), self.ui.video_screen.height()))
         qframe, _, ids = self.intruder_monitor(qframe)
         qframe = cv2.cvtColor(qframe, cv2.COLOR_BGR2RGB)  # BGR -> RGB
         h, w, ch = qframe.shape
@@ -73,6 +71,7 @@ class VisionGuardApp(QWidget):
                 verified = (
                     "Know" if self.intruder_monitor.logger[id]["verified"] else "Unknow"
                 )
+                print(self.intruder_monitor.logger[id]["verified"])
                 current_time = self.intruder_monitor.logger[id]["time"]
                 item = QListWidgetItem(
                     " ".join([verified, "person", str(id), current_time])
@@ -85,8 +84,8 @@ class VisionGuardApp(QWidget):
                             content="Warning from VisionGuard " + current_time,
                             image=self.intruder_monitor.logger[id]["frame"],
                         )
-        self.recorded_logger = len(self.intruder_monitor.logger)
-        self.update_summary()
+            self.recorded_logger = len(self.intruder_monitor.logger)
+            self.update_summary()
 
     def on_item_clicked(self, item):
         id = int(item.text().split()[2])
@@ -142,7 +141,7 @@ class VisionGuardApp(QWidget):
     def update_summary(self):
         img_path = summary.plot_chart(self.intruder_monitor.logger, self.interval)
         q_img = QImage(img_path)
-        scaled_q_img = q_img.scaled(self.ui.summary_plot.size())
+        scaled_q_img = q_img.scaled(self.ui.summary_plot.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation)
         self.ui.summary_plot.setPixmap(QPixmap.fromImage(scaled_q_img))
 
     def handleComboBox(self, index):
@@ -168,6 +167,10 @@ class VisionGuardApp(QWidget):
         self.camera = cv2.VideoCapture(0)
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.ui.video_screen.width())
         self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.ui.video_screen.height())
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(1000 / 15)
         event.accept()
 
 
@@ -181,6 +184,8 @@ class LoginAccount(QWidget):
         pixmap = QPixmap("resource/logo/icon.png")
         pixmap = pixmap.scaled(self.ui.icon.width(), self.ui.icon.height())
         self.ui.icon.setPixmap(pixmap)
+        icon = QIcon("resource/logo/window_icon.png")
+        self.setWindowIcon(icon)
 
 
 class LoginFace(QWidget):
@@ -190,11 +195,14 @@ class LoginFace(QWidget):
         self.ui = LoginFaceWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("人脸登录")
+        icon = QIcon("resource/logo/window_icon.png")
+        self.setWindowIcon(icon)
 
         self.camera = cv2.VideoCapture(0)
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_frame)
         self.timer.start(1000 / 25)
+
 
         self.login = Login()
 
@@ -202,7 +210,7 @@ class LoginFace(QWidget):
         ret, frame = self.camera.read()
         if ret:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            frame = cv2.resize(frame, (641, 470))
+            frame = cv2.resize(frame, (641, 360))
             h, w, ch = frame.shape
             bytes_per_line = ch * w
             q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_RGB888)
@@ -219,14 +227,8 @@ class FaceRegister(QWidget):
         self.ui = FaceRegisterWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("人脸注册")
-
-        self.camera = cv2.VideoCapture(0)
-        self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, 821)
-        self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, 611)
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_frame)
-        self.timer.start(1000 / 15)
+        icon = QIcon("resource/logo/window_icon.png")
+        self.setWindowIcon(icon)
 
         self.register = Register(720, 450)
 
@@ -262,7 +264,7 @@ class FaceRegister(QWidget):
     def update_frame(self):
         ret, frame = self.camera.read()
         if ret:
-            frame = cv2.resize(frame, (821, 611))
+            frame = cv2.resize(frame, (720, 450))
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             h, w, ch = frame.shape
             bytes_per_line = ch * w
@@ -331,7 +333,7 @@ class FaceRegister(QWidget):
         ret, frame = self.camera.read()
         if not ret:
             return
-        filename = f"{name}_{self.click_count}"
+        filename = f"{name}_{self.click_count+1}"
         register_image = self.register(filename, frame)
         if register_image is None:
             QMessageBox.information(self, "提示", "检测到多张人脸或未检测到人脸")
@@ -364,6 +366,10 @@ class FaceRegister(QWidget):
         self.camera = cv2.VideoCapture(0)
         self.camera.set(cv2.CAP_PROP_FRAME_WIDTH, self.ui.video_screen.width())
         self.camera.set(cv2.CAP_PROP_FRAME_HEIGHT, self.ui.video_screen.height())
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_frame)
+        self.timer.start(1000 / 25)
         event.accept()
 
 
@@ -380,6 +386,12 @@ class MainWindow:
         self.login_account.ui.account_login_button.clicked.connect(self.account_login)
         self.login_face.ui.face_verification_button.clicked.connect(self.face_login)
 
+        self.vision_guard = VisionGuardApp()
+        self.vision_guard.ui.settings.clicked.connect(self.switch_to_register)
+
+        self.register = FaceRegister()
+        self.register.ui.return_button.clicked.connect(self.switch_to_vision_guard)
+
     def switch_to_login_account(self):
         self.login_account.show()
         self.login_face.hide()
@@ -394,8 +406,6 @@ class MainWindow:
 
         if self.login_account.login.account_login(username, password):
             # If login successful, switch to the VisionGuardApp window
-            self.vision_guard = VisionGuardApp()
-            self.vision_guard.ui.settings.clicked.connect(self.switch_to_register)
             self.vision_guard.show()
             self.login_face.hide()
             self.login_account.hide()
@@ -418,8 +428,6 @@ class MainWindow:
             if result:
                 print("Face login successful!")
                 os.remove(filepath)
-                self.vision_guard = VisionGuardApp()
-                self.vision_guard.ui.settings.clicked.connect(self.switch_to_register)
                 self.vision_guard.show()
                 self.login_face.hide()
                 self.login_account.hide()
@@ -433,13 +441,12 @@ class MainWindow:
                 )
 
     def switch_to_register(self):
-        self.register = FaceRegister()
-        self.register.ui.return_button.clicked.connect(self.switch_to_vision_guard)
         self.register.show()
         self.vision_guard.hide()
 
     def switch_to_vision_guard(self):
         self.vision_guard.show()
+        self.vision_guard.intruder_monitor.load_verified_faces()
         self.register.close()
 
 

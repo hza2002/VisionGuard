@@ -143,7 +143,7 @@ class Ui_VisionGuard(object):
 
         self.gender = QLabel(VisionGuard)
         self.gender.setObjectName(u"gender")
-        self.gender.setMinimumSize(QSize(122, 25))
+        self.gender.setMinimumSize(QSize(100, 25))
         self.gender.setMaximumSize(QSize(16777215, 25))
         self.gender.setFont(font1)
         self.gender.setStyleSheet(u"border-width: 2px;\n"
@@ -162,7 +162,7 @@ class Ui_VisionGuard(object):
 
         self.age = QLabel(VisionGuard)
         self.age.setObjectName(u"age")
-        self.age.setMinimumSize(QSize(122, 25))
+        self.age.setMinimumSize(QSize(100, 25))
         self.age.setMaximumSize(QSize(16777215, 25))
         self.age.setFont(font1)
         self.age.setStyleSheet(u"border-width: 2px;\n"
@@ -181,7 +181,7 @@ class Ui_VisionGuard(object):
 
         self.appearance = QLabel(VisionGuard)
         self.appearance.setObjectName(u"appearance")
-        self.appearance.setMinimumSize(QSize(122, 25))
+        self.appearance.setMinimumSize(QSize(100, 25))
         self.appearance.setMaximumSize(QSize(16777215, 25))
         self.appearance.setFont(font1)
         self.appearance.setStyleSheet(u"border-width: 2px;\n"
@@ -200,7 +200,7 @@ class Ui_VisionGuard(object):
 
         self.hair = QLabel(VisionGuard)
         self.hair.setObjectName(u"hair")
-        self.hair.setMinimumSize(QSize(122, 25))
+        self.hair.setMinimumSize(QSize(100, 25))
         self.hair.setMaximumSize(QSize(16777215, 25))
         self.hair.setFont(font1)
         self.hair.setStyleSheet(u"border-width: 2px;\n"
@@ -219,7 +219,7 @@ class Ui_VisionGuard(object):
 
         self.expression = QLabel(VisionGuard)
         self.expression.setObjectName(u"expression")
-        self.expression.setMinimumSize(QSize(122, 25))
+        self.expression.setMinimumSize(QSize(100, 25))
         self.expression.setMaximumSize(QSize(16777215, 25))
         self.expression.setFont(font1)
         self.expression.setStyleSheet(u"border-width: 2px;\n"
@@ -238,7 +238,7 @@ class Ui_VisionGuard(object):
 
         self.clothes = QLabel(VisionGuard)
         self.clothes.setObjectName(u"clothes")
-        self.clothes.setMinimumSize(QSize(122, 25))
+        self.clothes.setMinimumSize(QSize(100, 25))
         self.clothes.setMaximumSize(QSize(16777215, 25))
         self.clothes.setFont(font1)
         self.clothes.setStyleSheet(u"border-width: 2px;\n"
@@ -326,7 +326,7 @@ class Ui_VisionGuard(object):
         self.summary_type.addItem("")
         self.summary_type.addItem("")
         self.summary_type.setObjectName(u"summary_type")
-        self.summary_type.setMinimumSize(QSize(76, 0))
+        self.summary_type.setMinimumSize(QSize(100, 0))
 
         self.horizontalLayout_16.addWidget(self.summary_type)
 

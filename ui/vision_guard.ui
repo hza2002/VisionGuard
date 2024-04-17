@@ -273,7 +273,7 @@
             <widget class="QLabel" name="gender">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -326,7 +326,7 @@ border-color: rgb(255, 255, 255);</string>
             <widget class="QLabel" name="age">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -379,7 +379,7 @@ border-color: rgb(255, 255, 255);</string>
             <widget class="QLabel" name="appearance">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -432,7 +432,7 @@ border-color: rgb(255, 255, 255);</string>
             <widget class="QLabel" name="hair">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -485,7 +485,7 @@ border-color: rgb(255, 255, 255);</string>
             <widget class="QLabel" name="expression">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -538,7 +538,7 @@ border-color: rgb(255, 255, 255);</string>
             <widget class="QLabel" name="clothes">
              <property name="minimumSize">
               <size>
-               <width>122</width>
+               <width>100</width>
                <height>25</height>
               </size>
              </property>
@@ -725,7 +725,7 @@ border-color: rgb(255, 255, 255);</string>
         <widget class="QComboBox" name="summary_type">
          <property name="minimumSize">
           <size>
-           <width>76</width>
+           <width>100</width>
            <height>0</height>
           </size>
          </property>

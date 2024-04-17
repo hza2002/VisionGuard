@@ -7,3 +7,4 @@ ui/face_register_ui.py
 ui/login_account_ui.py
 ui/login_face_ui.py
 ui/vision_guard_ui.py
+pysidedeploy.spec

@@ -265,7 +265,9 @@ class FaceRegister(QWidget):
             bytes_per_line = ch * w
             q_img = QImage(frame.data, w, h, bytes_per_line, QImage.Format_BGR888)
             scaled_q_img = q_img.scaled(
-                self.ui.video_screen.size(), Qt.IgnoreAspectRatio, Qt.SmoothTransformation
+                self.ui.video_screen.size(),
+                Qt.IgnoreAspectRatio,
+                Qt.SmoothTransformation,
             )
             self.ui.video_screen.setPixmap(QPixmap.fromImage(scaled_q_img))
 

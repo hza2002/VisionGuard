@@ -1,8 +1,7 @@
-<div style="display: flex; justify-content: center;">
-  <img src="assets/icon.png" style="max-width: 200px; height: auto;">
+<div align="center">
+  <img src="assets/icon.png" alt="Icon" width="300">
+  <h1 style="text-align: center;">Vision Guard</h1>
 </div>
-<br>
-<h1 style="text-align: center;">Vision Guard</h1>
 
 An Intelligent Monitoring and Security System built using **OpenCV**, **YOLO**, **face_recognition**, **PySide6**.
 
@@ -30,3 +29,7 @@ An Intelligent Monitoring and Security System built using **OpenCV**, **YOLO**, 
 pip install -r requirements.txt
 ```
 The version described in `requirements.txt` is exported by the `pipreq` command. In theory, similar versions can also run smoothly.
+
+After preparing the dependent environment, you need to fill in `example-config.json` in `resource` directory and rename it to `config.json` before it can run normally.
+
+The face login function relies on **iFlytek's silent liveness detection API**, the **face feature analysis relies on Tencent SDK**, and the security alert email function requires the **SMTP service** provided by the email service provider. If you need to use all the functions of the system, please fill in all items in the `config.json` file.
